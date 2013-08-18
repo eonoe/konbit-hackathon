@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.texttospeach.service.SMSSenderService;
+import com.example.texttospeach.async.SMSPostServiceAsyncTask;
 
 public class SMSGatewayActivity extends Activity implements OnInitListener {
 
@@ -40,14 +40,18 @@ public class SMSGatewayActivity extends Activity implements OnInitListener {
 	}
 
 	public static void showSMS(String sender, String message) {
+		TextView text = new TextView(mContext);
+		text.setText("Sender: " + sender + " Message: " + message);
+		smsLayout.addView(text);
+//		SMSSenderService.getInstance().sendSMS(sender, message);
+		SMSPostServiceAsyncTask task = new SMSPostServiceAsyncTask(sender, message);
+		task.execute();
 		if (message.contains("@")){
 			
 		}else{
-			TextView text = new TextView(mContext);
-			text.setText("Sender: " + sender + " Message: " + message);
-			smsLayout.addView(text);
-			SMSSenderService.getInstance().sendSMS(sender, message);
-			speakOut(message);
+			String[] msgs = message.split("*");
+//			if (msgs != null && msgs.length > 1)
+				speakOut(message);
 		}
 	}
 

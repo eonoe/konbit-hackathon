@@ -1,19 +1,21 @@
 package com.example.texttospeach.async;
 
-import android.content.Context;
 import android.os.AsyncTask;
+
+import com.example.texttospeach.service.SMSSenderService;
 
 public class SMSPostServiceAsyncTask extends AsyncTask<Void, Void, Void> {
 
-	private Context mContext;
+	private String sender, message;
 
-	public SMSPostServiceAsyncTask(Context mContext) {
-		this.mContext = mContext;
+	public SMSPostServiceAsyncTask(String sender, String message) {
+		this.sender = sender;
+		this.message = message;
 	}
 
 	@Override
 	protected Void doInBackground(Void... params) {
-		// TODO Auto-generated method stub
+		SMSSenderService.getInstance().sendSMS(sender, message);
 		return null;
 	}
 
